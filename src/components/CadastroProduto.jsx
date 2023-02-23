@@ -16,6 +16,8 @@ export default function Tarefas(props) {
   function addProduto() {
     if(produtos.length == 10)
       return alert('Limitado a 10 unidades');
+    if(nome == "" || valor == "")
+      return alert('Necessário Digitar nome do produto e valor');
     setLastId(lastId + 1);
     produtos.push({
       nome: nome,
@@ -53,13 +55,25 @@ export default function Tarefas(props) {
         <tr key={item.id}>
           <td>{item.nome}</td>
           <td>{item.valor}</td>
-          <td><button value={item.id} onClick={deleteButton}>Delete btn</button></td>
-          <td><button>Edit btn</button></td>
+          <td><button value={item.id} className="deleteButton" onClick={deleteButton}>Remover</button></td>
         </tr>
       );
     });
     return content;
   };
+
+  function finalizaCompra(){
+    const notasDisponiveis = [100, 50, 20, 10, 5, 2, 1];
+    let saida = '';
+    let resto = valorTotal;
+    let qtdNotas = 0;
+    notasDisponiveis.forEach((i) => {
+      qtdNotas = parseInt(resto / i);
+      resto = resto % i;
+      saida += qtdNotas != 0 ? ((qtdNotas == 1 ? qtdNotas+' nota de R$' : qtdNotas+' notas de R$') + i + '\n') : ''
+    })
+    return alert(saida);
+  }
 
   //Só pega a change quando eu deleto, deveria pegar quando addProduto Também
   useEffect(() => {
@@ -68,17 +82,24 @@ export default function Tarefas(props) {
 
   return <section>
     <h1>Adicionar produtos</h1>
-    <input onChange={e => setNome(e.target.value)} type="nomeProduto"/>
-    <input onChange={e => setValor(e.target.value)} type="number" id="valorProduto"/>
-    <button onClick={addProduto}>add</button>
+    <div>
+      <div className="inputDiv">
+        <label className="labelInput" htmlFor="inputNome">Produto</label>
+        <input id="inputNome" onChange={e => setNome(e.target.value)} type="nomeProduto"/>
+      </div>
+      <div className="inputDiv">
+        <label className="labelInput" htmlFor="inputValor">Valor</label>
+        <input id="inputValor" onChange={e => setValor(e.target.value)} type="number" id="valorProduto"/>
+      </div>
+    </div>
+    <button className="addButton" onClick={addProduto}>Adicionar</button>
     <h2>Carrinho de compras</h2>
     <table className="comprasContainer">
       <thead key="thead">
         <tr>
             <td>Nome</td>
             <td>Valor</td>
-            <td></td>
-            <td></td>
+            <td>Remover</td>
         </tr>
       </thead>
       <tbody key="tbody">
@@ -87,6 +108,7 @@ export default function Tarefas(props) {
     </table>
     <div className="comprasFooter">
       <h2>Valor total: {valorTotal}</h2>
+      {produtos.length > 0 ? <button onClick={finalizaCompra} className="finalizarButton">Finalizar</button> : ''}
     </div>
   </section>
 }
