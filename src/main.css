@@ -36,16 +36,12 @@ section {
   cursor: pointer;
 }
 
-.inputNome {
+#inputNome {
   padding: 5px;
-  margin: 0 5px 0 0;
-  max-width: 80%;
 }
 
 #inputValor {
   padding: 5px;
-  margin: 8px;
-  max-width: 15%;
 }
 
 #addButton {

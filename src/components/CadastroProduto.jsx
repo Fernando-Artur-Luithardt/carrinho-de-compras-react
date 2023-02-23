@@ -72,6 +72,7 @@ export default function Tarefas(props) {
       resto = resto % i;
       saida += qtdNotas != 0 ? ((qtdNotas == 1 ? qtdNotas+' nota de R$' : qtdNotas+' notas de R$') + i + '\n') : ''
     })
+    saida += '\nValor total: R$'+valorTotal
     return alert(saida);
   }
 
@@ -89,7 +90,7 @@ export default function Tarefas(props) {
       </div>
       <div className="inputDiv">
         <label className="labelInput" htmlFor="inputValor">Valor</label>
-        <input id="inputValor" onChange={e => setValor(e.target.value)} type="number" id="valorProduto"/>
+        <input id="inputValor" onChange={e => setValor(e.target.value)} type="number"/>
       </div>
     </div>
     <button className="addButton" onClick={addProduto}>Adicionar</button>
